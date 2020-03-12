@@ -18,7 +18,6 @@ public:
 			{
 				carr = sum / 10;
 				sum %= 10;
-				insertNode(result, carry);
 			}
 			insertNode(result, sum);
 			l1 = l1->next;
