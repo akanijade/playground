@@ -3,19 +3,26 @@ global rev_array_asm
 section .text
 
 ;prologue
-mov r11, 0
 rev_array_asm:
-    cmp rdx, 0                 ;comparing if size = 0
-    je rexit                   ;jump to exit 
-    add rdx, 1                 ;subtract one from size to get length
-    add rdi, rdx               ;get the last address
+    	cmp rdx, 0                 ;comparing if size = 0
+    	je rexit                   ;jump to exit 
+	mov r11, rdx
+	mov r12, rsi
+    	sub rdx, 1                 ;subtract one from size to get length
+	mov eax, 4
+	mul edx	
+    	add rdi, rax               ;get the last address
     
 next:
-    mov rsi, [rdi]              ;mov first param
-    add r11, 1
-    mov rsi, r11
-    sub rdx, 1
-    jb next                     ;keep going
+    	mov eax, dword [rdi]              ;mov first param
+	mov dword [rsi], eax
+	dec r11
+	cmp r11, 0
+	jne next
+	sub rdi, 4
+	add rsi, 4
 
 rexit: ;epilogue
+	sub rsi, 16
+	mov rax, rsi
 ret
